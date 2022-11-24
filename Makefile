@@ -2,9 +2,6 @@ SERVER_SRC	= server.c
 CLIENT_SRC	= client.c
 HEADERS		= minitalk.h
 
-CC			= cc -Wall -Werror -Wextra
-CC_FLAGS	= -Llibft -lft
-
 %.o: %.c ${HEADERS} libft/libft.a
 			${CC} $< -c -o $@
 
@@ -13,11 +10,11 @@ all:		libft server client
 libft:
 			@make -C libft
 
-server:		${SERVER_SRCS:.c=.o} ${HEADERS}
-			${CC} ${SERVER_SRC} ${CC_FLAGS} -o server
+server:		${SERVER_SRC:.c=.o} ${HEADERS}
+			cc -Wall -Werror -Wextra ${SERVER_SRC} -Llibft -lft -o server
 
-client:		${CLIENT_SRCS:.c=.o} ${HEADERS}
-			${CC} ${CLIENT_SRC} ${CC_FLAGS} -o client
+client:		${CLIENT_SRC:.c=.o} ${HEADERS}
+			cc -Wall -Werror -Wextra ${CLIENT_SRC} -Llibft -lft -o client
 
 clean:
 			rm -rdf ${SERVER_SRC:.c=.o} ${CLIENT_SRC:.c=.o}
