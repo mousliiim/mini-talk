@@ -6,28 +6,39 @@
 /*   By: mmourdal <mmourdal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 23:08:16 by mmourdal          #+#    #+#             */
-/*   Updated: 2022/11/25 02:06:44 by mmourdal         ###   ########.fr       */
+/*   Updated: 2022/11/25 19:08:57 by mmourdal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 #include "libft/printf/ft_printf.h"
 
-static void	sigHandler_sigusr1(int sig)
+void	sighandler(int signalreceive)
 {
-	(void)sig;
-    ft_printf("Caught SIGUSR1, %d\n", getpid());
+	if (signalreceive == SIGUSR1)
+		ft_printf("Signal SIGUSR1\n");
+	else if (signalreceive == SIGUSR2)
+		ft_printf("Signal SIGUSR2\n");
+	else
+		ft_printf("Error\n");
 }
 
 int	main(void)
 {
 	ft_printf("Hello %s\n", getlogin());
 	ft_printf("You'r Server Processus ID IS : %d\n", getpid());
-	signal(SIGUSR1, sigHandler_sigusr1);
-	
+	if (signal(SIGUSR1, sighandler) == SIG_ERR)
+	{
+		ft_printf("Error !\n");
+		exit(1);
+	}
+	if (signal(SIGUSR2, sighandler) == SIG_ERR)
+	{
+		ft_printf("Error !\n");
+		exit(1);
+	}
 	while (1)
 	{
 		sleep(1);
 	}
-	signal(SIGUSR1, sigHandler_sigusr1);
 }
