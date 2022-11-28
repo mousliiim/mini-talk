@@ -9,8 +9,15 @@
 /*   Updated: 2022/11/24 23:23:34 by mmourdal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#ifndef MINITALK_H
+# define MINITALK_H
 
 #include <signal.h>
+#include <unistd.h>
 #include "libft/printf/ft_printf.h"
 #include "libft/libft.h"
-#include <unistd.h>
+
+# define GREEN "\033[0;32m"
+# define RED "\033[0;31m"
+
+#endif
