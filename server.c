@@ -6,12 +6,29 @@
 /*   By: mmourdal <mmourdal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 23:08:16 by mmourdal          #+#    #+#             */
-/*   Updated: 2022/11/25 19:08:57 by mmourdal         ###   ########.fr       */
+/*   Updated: 2022/11/28 19:38:23 by mmourdal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-#include "libft/printf/ft_printf.h"
+
+void	ascii_start(int pid)
+{
+	(void)pid;
+	ft_printf("\n\n");
+	ft_printf("%s\t███╗░░░███╗██╗███╗░░██╗██╗████████╗░█████╗░██╗░░░░░██╗░██╗\n",
+		RED);
+	ft_printf("\t████╗░████║██║████╗░██║██║╚══██╔══╝██╔══██╗██║░░░░░██║░██╔╝\n");
+	ft_printf("\t██╔████╔██║██║██╔██╗██║██║░░░██║░░░███████║██║░░░░░█████═╝░\n");
+	ft_printf("\t██║╚██╔╝██║██║██║╚████║██║░░░██║░░░██╔══██║██║░░░░░██╔═██╗░\n");
+	ft_printf("\t██║░╚═╝░██║██║██║░╚███║██║░░░██║░░░██║░░██║███████╗██║░╚██╗\n");
+	ft_printf("\t╚═╝░░░░░╚═╝╚═╝╚═╝░░╚══╝╚═╝░░░╚═╝░░░╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝%s",
+		END);
+	ft_printf("\n\n\n");
+	ft_printf("\t\t   ●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬๑۩۩๑▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●\n");
+	ft_printf("\t\t       PID : %s%d%s\tBy MMOURDAL\n", GREEN, pid, END);
+	ft_printf("\t\t   ●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬๑۩۩๑▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●\n\n\n");
+}
 
 void	sighandler(int signalreceive)
 {
@@ -25,20 +42,17 @@ void	sighandler(int signalreceive)
 
 int	main(void)
 {
-	ft_printf("Hello %s\n", getlogin());
-	ft_printf("You'r Server Processus ID IS : %d\n", getpid());
+	ascii_start(getpid());
 	if (signal(SIGUSR1, sighandler) == SIG_ERR)
 	{
-		ft_printf("Error !\n");
+		ft_printf("Error ! USR2\n");
 		exit(1);
 	}
 	if (signal(SIGUSR2, sighandler) == SIG_ERR)
 	{
-		ft_printf("Error !\n");
+		ft_printf("Error ! USR2\n");
 		exit(1);
 	}
 	while (1)
-	{
 		sleep(1);
-	}
 }

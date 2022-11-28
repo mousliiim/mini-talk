@@ -12,12 +12,13 @@
 #ifndef MINITALK_H
 # define MINITALK_H
 
-#include <signal.h>
-#include <unistd.h>
-#include "libft/printf/ft_printf.h"
-#include "libft/libft.h"
+# include <signal.h>
+# include <unistd.h>
+# include "libft/printf/ft_printf.h"
+# include "libft/libft.h"
 
 # define GREEN "\033[0;32m"
 # define RED "\033[0;31m"
+# define END "\033[0m"
 
 #endif

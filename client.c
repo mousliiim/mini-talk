@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minitalk.h"
-#include "libft/printf/ft_printf.h"
 
 void	ft_char(char c)
 {
@@ -46,28 +45,26 @@ void	char_to_binary(unsigned char c)
 	}
 }*/
 
-/*int	main(int argc, char const *argv[])
+int	main(int argc, char const *argv[])
 {
 	__pid_t	pid;
-	int		i;
-
-	i = 0;
+	
 	pid = ft_atoi(argv[1]);
 	if (argc < 3)
 		return (ft_printf("./client [PID] [Message]\n"));
 	else
 		kill(pid, SIGUSR2);
-}*/
-
-int	main(void)
-{
-	int	i;
-	char	q;
-	char *msg;
-
-	msg = "mouslim";
-	q = 'm';
-	i = -1;
-	while (msg[++i])
-		char_to_binary(msg[i]);
 }
+
+// int	main(void)
+// {
+// 	int	i;
+// 	char	q;
+// 	char *msg;
+
+// 	msg = "mouslim";
+// 	q = 'm';
+// 	i = -1;
+// 	while (msg[++i])
+// 		char_to_binary(msg[i]);
+// }
