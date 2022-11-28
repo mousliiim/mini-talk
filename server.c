@@ -30,29 +30,29 @@ void	ascii_start(int pid)
 	ft_printf("\t\t   ●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬๑۩۩๑▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●\n\n\n");
 }
 
-void	sighandler(int signalreceive)
-{
-	if (signalreceive == SIGUSR1)
-		ft_printf("Signal SIGUSR1\n");
-	else if (signalreceive == SIGUSR2)
-		ft_printf("Signal SIGUSR2\n");
-	else
-		ft_printf("Error\n");
-}
+// void	sighandler(int signalreceive)
+// {
+// 	if (signalreceive == SIGUSR1)
+// 		ft_printf("Signal SIGUSR1\n");
+// 	else if (signalreceive == SIGUSR2)
+// 		ft_printf("Signal SIGUSR2\n");
+// 	else
+// 		ft_printf("Error\n");
+// }
 
 int	main(void)
 {
 	ascii_start(getpid());
-	if (signal(SIGUSR1, sighandler) == SIG_ERR)
-	{
-		ft_printf("Error ! USR2\n");
-		exit(1);
-	}
-	if (signal(SIGUSR2, sighandler) == SIG_ERR)
-	{
-		ft_printf("Error ! USR2\n");
-		exit(1);
-	}
+	// if (signal(SIGUSR1, sighandler) == SIG_ERR)
+	// {
+	// 	ft_printf("Error ! USR2\n");
+	// 	exit(1);
+	// }
+	// if (signal(SIGUSR2, sighandler) == SIG_ERR)
+	// {
+	// 	ft_printf("Error ! USR2\n");
+	// 	exit(1);
+	// }
 	while (1)
 		sleep(1);
 }

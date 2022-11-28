@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "minitalk.h"
+#include <signal.h>
+
 
 void	ft_char(char c)
 {
@@ -19,19 +21,16 @@ void	ft_char(char c)
 
 void	char_to_binary(unsigned char c)
 {
-	int	i;
+	int	bit;
 
-	i = 7;
-	while (i--)
+	bit = 0;
+	while (bit < 8)
 	{
-		if (c & (1 << i))
-			ft_char('1');
-		else
-			ft_char('0');
+		usleep(100);
 	}
 }
 
-/*int	*read_msg(char *msg)
+void	read_msg(char *msg)
 {
 	int	i;
 	int	len;
@@ -43,17 +42,35 @@ void	char_to_binary(unsigned char c)
 		char_to_binary(msg[i]);
 		i++;
 	}
-}*/
+}
 
-int	main(int argc, char const *argv[])
+void	sendsig(int sigusr)
 {
-	__pid_t	pid;
-	
+	static int	sending;
+
+	if (sigusr == SIGUSR1)
+	{
+		ft_printf("%s%d Signal envoyez ..%s\n", GREEN, ++sending, END);
+		exit(EXIT_SUCCESS);
+	}
+	if (sigusr == SIGUSR2)
+		++sending;
+}
+
+int	main(int argc, char *argv[])
+{
+	__pid_t				pid;
+
 	pid = ft_atoi(argv[1]);
 	if (argc < 3)
 		return (ft_printf("./client [PID] [Message]\n"));
+	else if (pid < 0)
+		return (ft_printf("PID NEGATIF"));
 	else
-		kill(pid, SIGUSR2);
+	{
+		signal(SIGUSR1, sendsig);
+		signal(SIGUSR2, sendsig);
+	}
 }
 
 // int	main(void)
