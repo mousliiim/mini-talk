@@ -6,7 +6,7 @@
 /*   By: mmourdal <mmourdal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 23:08:16 by mmourdal          #+#    #+#             */
-/*   Updated: 2022/11/28 19:38:23 by mmourdal         ###   ########.fr       */
+/*   Updated: 2022/12/01 21:31:14 by mmourdal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,29 +30,33 @@ void	ascii_start(int pid)
 	ft_printf("\t\t   ●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬๑۩۩๑▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●\n\n\n");
 }
 
-// void	sighandler(int signalreceive)
+void my_handler(int signum)
+{
+    if (signum == SIGUSR1)
+        ft_printf("0");
+	else if(signum == SIGUSR2)
+		ft_printf("1");
+}
+
+// void	binary_to_char(unsigned char c, int pid)
 // {
-// 	if (signalreceive == SIGUSR1)
-// 		ft_printf("Signal SIGUSR1\n");
-// 	else if (signalreceive == SIGUSR2)
-// 		ft_printf("Signal SIGUSR2\n");
-// 	else
-// 		ft_printf("Error\n");
+// 	int	bit;
+
+// 	bit = 8;
+// 	while (bit--)
+// 	{
+// 		if (c & (1 << bit))
+// 			kill(pid, SIGUSR2);
+// 		else
+// 			kill(pid, SIGUSR1);
+// 	}
 // }
 
 int	main(void)
 {
 	ascii_start(getpid());
-	// if (signal(SIGUSR1, sighandler) == SIG_ERR)
-	// {
-	// 	ft_printf("Error ! USR2\n");
-	// 	exit(1);
-	// }
-	// if (signal(SIGUSR2, sighandler) == SIG_ERR)
-	// {
-	// 	ft_printf("Error ! USR2\n");
-	// 	exit(1);
-	// }
+	signal(SIGUSR1, my_handler);
+	signal(SIGUSR2, my_handler);
 	while (1)
 		sleep(1);
 }

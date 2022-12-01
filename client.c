@@ -6,31 +6,34 @@
 /*   By: mmourdal <mmourdal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 23:08:13 by mmourdal          #+#    #+#             */
-/*   Updated: 2022/11/25 19:55:44 by mmourdal         ###   ########.fr       */
+/*   Updated: 2022/12/01 21:28:21 by mmourdal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 #include <signal.h>
 
-
 void	ft_char(char c)
 {
 	write(1, &c, 1);
 }
 
-void	char_to_binary(unsigned char c)
+void	char_to_binary(unsigned char c, int pid)
 {
 	int	bit;
 
-	bit = 0;
-	while (bit < 8)
+	bit = 8;
+	while (bit--)
 	{
-		usleep(100);
+		if (c & (1 << bit))
+			kill(pid, SIGUSR2);
+		else
+			kill(pid, SIGUSR1);
+		usleep(400);
 	}
 }
 
-void	read_msg(char *msg)
+void	read_msg(char *msg, int pid)
 {
 	int	i;
 	int	len;
@@ -39,7 +42,7 @@ void	read_msg(char *msg)
 	len = ft_strlen(msg);
 	while (i < len)
 	{
-		char_to_binary(msg[i]);
+		char_to_binary(msg[i], pid);
 		i++;
 	}
 }
@@ -67,10 +70,7 @@ int	main(int argc, char *argv[])
 	else if (pid < 0)
 		return (ft_printf("PID NEGATIF"));
 	else
-	{
-		signal(SIGUSR1, sendsig);
-		signal(SIGUSR2, sendsig);
-	}
+		read_msg(argv[2], pid);
 }
 
 // int	main(void)
