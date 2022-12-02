@@ -6,7 +6,7 @@
 /*   By: mmourdal <mmourdal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 23:08:13 by mmourdal          #+#    #+#             */
-/*   Updated: 2022/12/02 17:40:58 by mmourdal         ###   ########.fr       */
+/*   Updated: 2022/12/02 18:27:43 by mmourdal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	char_to_binary(unsigned char c, int pid)
 			kill(pid, SIGUSR2);
 		else
 			kill(pid, SIGUSR1);
-		usleep(1200);
+		usleep(600);
 	}
 }
 
@@ -51,16 +51,17 @@ void	sendsig(int sigusr)
 		++sending;
 }
 
-int	main(int argc, char *argv[])
+int	main(int argc, char **argv)
 {
 	__pid_t				pid;
 
 	if (argc < 3)
-		return (ft_printf("./client [PID] [Message]\n"));
+		return (ft_printf("./client [Processus ID] [Your Message]\n"));
 	pid = ft_atoi(argv[1]);
 	if (pid < 0)
-		return (ft_printf("PID NEGATIF"));
-	read_msg(argv[2], pid);
+		return (ft_printf("\n%sYour PID cannot be negative !%s\n\n", RED, END));
+	if (argc == 3)
+		read_msg(argv[2], pid);
 }
 
 // int	main(void)
