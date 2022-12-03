@@ -6,7 +6,7 @@
 /*   By: mmourdal <mmourdal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 23:08:13 by mmourdal          #+#    #+#             */
-/*   Updated: 2022/12/03 02:30:39 by mmourdal         ###   ########.fr       */
+/*   Updated: 2022/12/03 02:31:40 by mmourdal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,3 @@ int	main(int argc, char **argv)
 	if (argc == 3)
 		read_msg(argv[2], pid);
 }
-
-// int	main(void)
-// {
-// 	int	i;
-// 	char	q;
-// 	char *msg;
-
-// 	msg = "mouslim";
-// 	q = 'm';
-// 	i = -1;
-// 	while (msg[++i])
-// 		char_to_binary(msg[i]);
-// }
