@@ -1,4 +1,4 @@
-SERVER_SRC	= server.c
+SERVER_SRC	= server.c ascii.c
 CLIENT_SRC	= client.c
 HEADERS		= minitalk.h
 
@@ -26,4 +26,4 @@ fclean:		clean
 
 re:			fclean all
 
-.PHONY:		all libft clean fclean re
+.PHONY:		all libft clean fclean re server client ascii
