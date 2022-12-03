@@ -6,7 +6,7 @@
 /*   By: mmourdal <mmourdal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 23:08:13 by mmourdal          #+#    #+#             */
-/*   Updated: 2022/12/03 02:31:40 by mmourdal         ###   ########.fr       */
+/*   Updated: 2022/12/03 03:45:03 by mmourdal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,6 @@ void	read_msg(char *msg, int pid)
 	while (msg[++i])
 		char_to_binary(msg[i], pid);
 	char_to_binary(0, pid);
-}
-
-void	sendsig(int sigusr)
-{
-	static int	sending;
-
-	if (sigusr == SIGUSR1)
-	{
-		ft_printf("%s%d Signal envoyez ..%s\n", GREEN, ++sending, END);
-		exit(EXIT_SUCCESS);
-	}
-	if (sigusr == SIGUSR2)
-		++sending;
 }
 
 int	main(int argc, char **argv)
