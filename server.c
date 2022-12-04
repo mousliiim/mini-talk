@@ -6,7 +6,7 @@
 /*   By: mmourdal <mmourdal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 23:08:16 by mmourdal          #+#    #+#             */
-/*   Updated: 2022/12/03 02:28:24 by mmourdal         ###   ########.fr       */
+/*   Updated: 2022/12/04 01:41:56 by mmourdal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,11 @@
 
 int	g_i = 0;
 
-char	*ft_realloc(char *str)
+// La fonction ft_realloc() est utilisée pour augmenter la taille de la chaîne
+// de caractères lorsqu'elle est pleine, elle seras appeller a chaque fois que
+// la variable count qui sert a compter le nombre de char creer seras egale a
+// notre BUFFER_SIZE qui est de 10. 
+static char	*ft_realloc(char *str)
 {
 	char	*new;
 	int		i;
@@ -32,23 +36,33 @@ char	*ft_realloc(char *str)
 	return (new);
 }
 
-void	create_char(char *str, int *i, char *bit, int *count)
+// La fonction create_char() est utilisée pour créer un caractère à partir des 
+// bits reçus dans le signal et l'ajouter à la chaîne str.
+static void	create_char(char *str, int *i, char *bit, int *count)
 {
 	str[(*i)++] = *bit;
 	*count += 1;
 	*bit = 0;
 }
 
-void	display_str(char **str, int *i, int *count)
+// La fonction display_str() sert a afficher la chaîne et la réinitialiser.
+// Des que la chaine est afficher nous pouvons free la chaine et remettre a 0
+// Notre compteur pour le tampon BUFFER_SIZE et notre variable global g_i.
+static void	display_str(char **str, int *i, int *count)
 {
 	write(1, *str, *i);
 	*i = 0;
 	*count = 0;
-	free(*str);
 	*str = NULL;
+	free(*str);
 }
 
-void	my_handler(int signum)
+// La fonction my_handler est appelée chaque fois que le programme reçoit un
+// signal SIGUSR1 | SIGUSR2.Elle stocke les signaux dans la chaîne de caractères
+// en faisant correspondre les bits reçus aux caractères ASCII correspondants.
+// Ont vas utiliser la meme logique de bits que sur notre client pour recreer
+// notre octet dans notre Char Bit.
+static void	my_handler(int signum)
 {
 	static int	count;
 	static int	shift = -1;
@@ -62,7 +76,10 @@ void	my_handler(int signum)
 	if (shift < 0 && !bit)
 		shift = 7;
 	if (signum == SIGUSR2)
+	{
 		bit = bit | (1 << shift);
+		ft_printf("%c", bit);
+	}
 	shift--;
 	if (shift < 0 && bit)
 		create_char(str, &g_i, &bit, &count);
