@@ -6,7 +6,7 @@
 /*   By: mmourdal <mmourdal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 23:08:16 by mmourdal          #+#    #+#             */
-/*   Updated: 2022/12/04 01:41:56 by mmourdal         ###   ########.fr       */
+/*   Updated: 2022/12/06 01:27:15 by mmourdal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ int	g_i = 0;
 // de caractères lorsqu'elle est pleine, elle seras appeller a chaque fois que
 // la variable count qui sert a compter le nombre de char creer seras egale a
 // notre BUFFER_SIZE qui est de 10. 
-static char	*ft_realloc(char *str)
+static char	*ft_realloc(char *str, int *count)
 {
 	char	*new;
 	int		i;
 
 	i = -1;
-	new = ft_calloc(sizeof(char), BUFFER_SIZE * 2);
+	new = ft_calloc(sizeof(char), BUFFER_SIZE * 2 + 1);
 	if (!new)
 	{
 		free(str);
@@ -33,6 +33,7 @@ static char	*ft_realloc(char *str)
 	while (str[++i])
 		new[i] = str[i];
 	free(str);
+	*count = 0;
 	return (new);
 }
 
@@ -53,8 +54,8 @@ static void	display_str(char **str, int *i, int *count)
 	write(1, *str, *i);
 	*i = 0;
 	*count = 0;
-	*str = NULL;
 	free(*str);
+	*str = NULL;
 }
 
 // La fonction my_handler est appelée chaque fois que le programme reçoit un
@@ -70,23 +71,20 @@ static void	my_handler(int signum)
 	static char	*str;
 
 	if (!str)
-		str = ft_calloc(sizeof(char), BUFFER_SIZE);
+		str = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
 	if (!str)
 		exit(1);
 	if (shift < 0 && !bit)
 		shift = 7;
 	if (signum == SIGUSR2)
-	{
 		bit = bit | (1 << shift);
-		ft_printf("%c", bit);
-	}
 	shift--;
 	if (shift < 0 && bit)
 		create_char(str, &g_i, &bit, &count);
 	else if (shift < 0 && !bit)
 		display_str(&str, &g_i, &count);
 	if (count == BUFFER_SIZE)
-		str = ft_realloc(str);
+		str = ft_realloc(str, &count);
 }
 
 int	main(void)

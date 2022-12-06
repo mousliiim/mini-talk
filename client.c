@@ -6,7 +6,7 @@
 /*   By: mmourdal <mmourdal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 23:08:13 by mmourdal          #+#    #+#             */
-/*   Updated: 2022/12/04 00:40:47 by mmourdal         ###   ########.fr       */
+/*   Updated: 2022/12/06 00:24:20 by mmourdal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@
 * à 3, le programme lit le message et l'envoie au processus.
 */
 
-// Nous considerons un bit actif '1' pour SIGUSR2 | Bit passif '0' pour SIGUSR1
+// SIGUSR1 et SIGUSR2 servent à envoyer un signal à un processus pour indiquer
+// si le bit à 1 ou à 0. Dans ma fonction ↓↓ , SIGUSR1 est envoyé s'il y a un 0
+// et SIGUSR2 est envoyé s'il y a un 1. Une fois le bit est envoyé
+// le processus attend 600 microsecondes avant de passer au bit suivant.
 static void	char_to_binary(unsigned char c, int pid)
 {
 	int	bit;
@@ -55,8 +58,12 @@ int	main(int argc, char **argv)
 	if (argc < 3)
 		return (ft_printf("./client [Processus ID] [Your Message]\n"));
 	pid = ft_atoi(argv[1]);
-	if (pid < 0 || argv[1][0] < 0)
+	if (pid < 0)
 		return (ft_printf("\n%sYour PID cannot be negative !%s\n\n", RED, END));
+	else if (!ft_isdigit(argv[1][0]))
+		return (ft_printf("\n%sYour PID cannot be a char !%s\n\n", RED, END));
+	else if (pid > 4194304)
+		return (ft_printf("\n%sThe PID limit value is 4194304%s\n\n", RED, END));
 	if (argc == 3)
 		read_msg(argv[2], pid);
 }
