@@ -6,7 +6,7 @@
 /*   By: mmourdal <mmourdal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 23:08:13 by mmourdal          #+#    #+#             */
-/*   Updated: 2022/12/06 00:24:20 by mmourdal         ###   ########.fr       */
+/*   Updated: 2022/12/07 00:08:56 by mmourdal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 // SIGUSR1 et SIGUSR2 servent à envoyer un signal à un processus pour indiquer
 // si le bit à 1 ou à 0. Dans ma fonction ↓↓ , SIGUSR1 est envoyé s'il y a un 0
 // et SIGUSR2 est envoyé s'il y a un 1. Une fois le bit est envoyé
-// le processus attend 600 microsecondes avant de passer au bit suivant.
+// le processus attend 5000 microsecondes avant de passer au bit suivant.
 static void	char_to_binary(unsigned char c, int pid)
 {
 	int	bit;
@@ -37,7 +37,7 @@ static void	char_to_binary(unsigned char c, int pid)
 			kill(pid, SIGUSR2);
 		else
 			kill(pid, SIGUSR1);
-		usleep(600);
+		usleep(400);
 	}
 }
 
@@ -64,6 +64,8 @@ int	main(int argc, char **argv)
 		return (ft_printf("\n%sYour PID cannot be a char !%s\n\n", RED, END));
 	else if (pid > 4194304)
 		return (ft_printf("\n%sThe PID limit value is 4194304%s\n\n", RED, END));
-	if (argc == 3)
+	else if (ft_strlen(argv[2]) == 0)
+		return (ft_printf("\n%sThe message can't be empty !%s\n\n", RED, END));
+	else if (argc == 3)
 		read_msg(argv[2], pid);
 }

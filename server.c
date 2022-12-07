@@ -6,7 +6,7 @@
 /*   By: mmourdal <mmourdal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 23:08:16 by mmourdal          #+#    #+#             */
-/*   Updated: 2022/12/06 01:27:15 by mmourdal         ###   ########.fr       */
+/*   Updated: 2022/12/07 01:59:52 by mmourdal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	*ft_realloc(char *str, int *count)
 	int		i;
 
 	i = -1;
-	new = ft_calloc(sizeof(char), BUFFER_SIZE * 2 + 1);
+	new = ft_calloc(sizeof(char), BUFFER_SIZE * 2 + g_i);
 	if (!new)
 	{
 		free(str);
@@ -41,9 +41,9 @@ static char	*ft_realloc(char *str, int *count)
 // bits reçus dans le signal et l'ajouter à la chaîne str.
 static void	create_char(char *str, int *i, char *bit, int *count)
 {
-	str[(*i)++] = *bit;
-	*count += 1;
-	*bit = 0;
+		str[(*i)++] = *bit;
+		*count += 1;
+		*bit = 0;
 }
 
 // La fonction display_str() sert a afficher la chaîne et la réinitialiser.
@@ -79,19 +79,20 @@ static void	my_handler(int signum)
 	if (signum == SIGUSR2)
 		bit = bit | (1 << shift);
 	shift--;
+	if (count == BUFFER_SIZE)
+		str = ft_realloc(str, &count);
 	if (shift < 0 && bit)
 		create_char(str, &g_i, &bit, &count);
 	else if (shift < 0 && !bit)
 		display_str(&str, &g_i, &count);
-	if (count == BUFFER_SIZE)
-		str = ft_realloc(str, &count);
 }
 
 int	main(void)
 {
+	
 	ascii_start(getpid());
 	signal(SIGUSR1, my_handler);
 	signal(SIGUSR2, my_handler);
 	while (1)
-		sleep(1);
+		pause();
 }
